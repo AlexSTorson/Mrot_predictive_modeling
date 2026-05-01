@@ -1,6 +1,6 @@
 # Mrot_Predictive_Modeling
 
-R scripts and Shiny application for Torson et al. (*Journal of Economic Entomology*, in review):  
+R scripts and Shiny application for Torson et al. (*Journal of Economic Entomology*, submitted):  
 *A three-phase interrupted development model and web application for predicting timing of* Megachile rotundata *emergence for synchronization with peak floral bloom*
 
 AlfalfaBeeTools web application: https://torsonlab.shinyapps.io/AlfalfaBeeTools/  
@@ -40,7 +40,7 @@ source("04_emergence_date_predictor.R")
 source("05_three_phase_model_validation.R")
 ```
 
-Each script contains a `setwd()` call pointing to the original author's local directory. Update this path to your own working directory before running. Each script creates its own output directory on first run. Before running script 04, edit the user input block near the top of the file to specify your protocol temperatures and durations.
+Before running each script, update `setwd()` to your own working directory. Each script creates its own output directory on first run.
 
 ---
 
@@ -49,8 +49,6 @@ Each script contains a `setwd()` call pointing to the original author's local di
 ```r
 install.packages(c("tidyverse", "quantreg", "ggsci", "patchwork", "cowplot", "lubridate", "ggforce", "shiny", "shinydashboard"))
 ```
-
-R version 4.x or later recommended.
 
 ---
 
