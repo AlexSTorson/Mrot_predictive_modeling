@@ -30,17 +30,7 @@ Place the file in the project root directory before running any scripts.
 
 ## Running the pipeline
 
-Scripts must be run in order, as downstream scripts depend on outputs from script 01:
-
-```r
-source("01_dev_rate_estimation.R")
-source("02_two_phase_model.R")
-source("03_three_phase_model_figures.R")
-source("04_emergence_date_predictor.R")
-source("05_three_phase_model_validation.R")
-```
-
-Before running each script, update `setwd()` to your own working directory. Each script creates its own output directory on first run.
+Scripts must be run in order, as downstream scripts depend on outputs from script 01. Open each script individually in RStudio and run sequentially. Before running each script, update `setwd()` to your own working directory. Each script creates its own output directory on first run.
 
 ---
 
