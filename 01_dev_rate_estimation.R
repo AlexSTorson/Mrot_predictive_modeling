@@ -94,6 +94,28 @@ emergence_data %>%
   count(experiment, temperature, sex) %>%
   print(n = Inf)
 
+# Emergence Rate by Temperature -----------------------------------------------
+
+emergence_rate_summary <- raw_data %>%
+  filter(experiment %in% c(1, 2)) %>%
+  mutate(temperature = as.integer(treatment)) %>%
+  group_by(temperature) %>%
+  summarise(
+    n_total = n(),
+    n_emerged = sum(!is.na(daysToEmergence) & sex %in% c("M", "F")),
+    pct_emerged = round(100 * n_emerged / n_total, 1),
+    .groups = "drop"
+  )
+
+print(emergence_rate_summary)
+
+# Test whether there are differences in emergence rates among treatments
+chisq_emergence <- chisq.test(
+  cbind(emergence_rate_summary$n_emerged,
+        emergence_rate_summary$n_total - emergence_rate_summary$n_emerged)
+)
+
+print(chisq_emergence)
 # Temperature-level summary: Both sexes combined ------------------------------
 
 devrate_summary_combined <- emergence_data %>%
@@ -406,7 +428,7 @@ qm_combined <- fit_quantile_models(emergence_data, dev_threshold)
 qm_female <- fit_quantile_models(filter(emergence_data, sex == "Female"), dev_threshold_female)
 qm_male <- fit_quantile_models(filter(emergence_data, sex == "Male"), dev_threshold_male)
 
-# Table S3: Quantile Regression Parameters --------------------------------
+# Table S4: Quantile Regression Parameters --------------------------------
 
 # NID SEs used given heterogeneous variance (Fligner-Killeen test above).
 # Tb is the sex-specific LDT used in 1/(temperature - Tb).
@@ -424,7 +446,7 @@ extract_rq_params <- function(rq_obj, model_label, tau_label, base_temp) {
   )
 }
 
-table_s3 <- bind_rows(
+table_s4 <- bind_rows(
   extract_rq_params(qm_combined$rq_10, "Combined", "10th", dev_threshold),
   extract_rq_params(qm_combined$rq_50, "Combined", "50th", dev_threshold),
   extract_rq_params(qm_combined$rq_90, "Combined", "90th", dev_threshold),
@@ -436,8 +458,8 @@ table_s3 <- bind_rows(
   extract_rq_params(qm_male$rq_90, "Male", "90th", dev_threshold_male)
 )
 
-print(table_s3)
-write_csv(table_s3, "./01_dev_rate_estimation/Table_S3_quantile_regression_parameters.csv")
+print(table_s4)
+write_csv(table_s4, "./01_dev_rate_estimation/Table_S4_quantile_regression_parameters.csv")
 
 # Build quantile prediction lines ---------------------------------------------
 
@@ -547,16 +569,16 @@ table_s1 <- bind_rows(
 write_csv(table_s1, "./01_dev_rate_estimation/Table_S1_Emergence_Rates.csv")
 
 
-# Table S4: Merged emergence window summary -------------------------------
+# Table S3: Merged emergence window summary -------------------------------
 
-table_s4 <- bind_rows(
+table_s3 <- bind_rows(
   window_summary %>% mutate(sex = "Combined"),
   window_summary_by_sex
 ) %>%
   arrange(temperature, factor(sex, levels = c("Combined", "Female", "Male"))) %>%
   select(temperature, sex, n, mean, sd, iqr, p10, p90, window)
 
-write_csv(table_s4, "./01_dev_rate_estimation/Table_S4_emergence_window_summary.csv")
+write_csv(table_s3, "./01_dev_rate_estimation/Table_S3_emergence_window_summary.csv")
 
 # Session Info ----------------------------------------------------------------
 
