@@ -4,7 +4,7 @@ R scripts and Shiny application for Torson et al. (*Journal of Economic Entomolo
 *A three-phase interrupted development model and web application for predicting timing of* Megachile rotundata *emergence for synchronization with peak floral bloom*
 
 AlfalfaBeeTools web application: https://torsonlab.shinyapps.io/AlfalfaBeeTools/  
-Dataset (Ag Data Commons): https://doi.org/XXXXX
+Dataset (Ag Data Commons): https://doi.org/10.15482/USDA.ADC/31803637
 
 ---
 
