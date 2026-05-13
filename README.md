@@ -23,7 +23,7 @@ Dataset (Ag Data Commons): https://doi.org/XXXXX
 
 ## Data
 
-The input dataset (`degree_day_dataset.csv`) is available via USDA Ag Data Commons (https://doi.org/XXXXX).  
+The input dataset (`degree_day_dataset.csv`) is available via USDA Ag Data Commons (https://doi.org/10.15482/USDA.ADC/31803637).  
 Place the file in the project root directory before running any scripts.
 
 ---
