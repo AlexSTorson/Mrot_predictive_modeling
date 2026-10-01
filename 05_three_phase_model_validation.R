@@ -30,6 +30,7 @@
 #   - 05_three_phase_model_validation/three_phase_model_validation_window_predictions.csv
 #   - 05_three_phase_model_validation/three_phase_model_validation_window_predictions_by_sex.csv
 #   - 05_three_phase_model_validation/three_phase_model_validation_window_accuracy.csv
+#   - 05_three_phase_model_validation/validation_emergence_rate_summary.csv
 #   - 05_three_phase_model_validation/three_phase_model_validation_window_plot_facet.png/pdf
 #   - 05_three_phase_model_validation/three_phase_model_validation_window_plot_dumbbell.png/pdf
 #   - 05_three_phase_model_validation/three_phase_model_validation_window_plot_facet_by_sex.png/pdf
@@ -66,7 +67,7 @@ alex_theme <- theme_bw() +
 # Working Directory -----------------------------------------------------------
 
 setwd(
-  "/Users/alextorson/Library/CloudStorage/OneDrive-USDA/Torson_Lab/Mrot_Predictive_Modeling/"
+  "/Users/Alex.Torson/Library/CloudStorage/OneDrive-USDA/Torson_Lab/Mrot_Predictive_Modeling/"
 )
 
 if (!dir.exists("./05_three_phase_model_validation/")) {
@@ -90,6 +91,31 @@ input_data <- read_csv("./01_dev_rate_estimation/dev_rate_summary_combined.csv")
 # for reference but excluded from model validation metrics.
 
 raw_data <- read_csv("./degree_day_dataset.csv")
+
+# Emergence Rate by Treatment --------------------------------------------------
+
+validation_emergence_rate <- raw_data %>%
+  filter(experiment %in% c(3, 4)) %>%
+  mutate(n_emerged_flag = !is.na(daysToEmergence) & sex %in% c("M", "F")) %>%
+  group_by(treatment) %>%
+  summarise(
+    n_total = n(),
+    n_emerged = sum(n_emerged_flag),
+    pct_emerged = round(100 * n_emerged / n_total, 1),
+    .groups = "drop"
+  )
+
+print(validation_emergence_rate)
+
+# Test whether emergence rates differ among validation treatments
+chisq_validation_emergence <- chisq.test(
+  cbind(validation_emergence_rate$n_emerged,
+        validation_emergence_rate$n_total - validation_emergence_rate$n_emerged)
+)
+
+print(chisq_validation_emergence)
+
+write_csv(validation_emergence_rate, "./05_three_phase_model_validation/validation_emergence_rate_summary.csv")
 
 validation_observed <- raw_data %>%
   filter(

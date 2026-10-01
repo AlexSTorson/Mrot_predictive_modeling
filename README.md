@@ -17,6 +17,7 @@ Dataset (Ag Data Commons): https://doi.org/10.15482/USDA.ADC/31803637
 | `03_three_phase_model_figures.R` | Generates the protocol timeline, cumulative development curve, and cryophase sensitivity figures for the three-phase interrupted development model. |
 | `04_emergence_date_predictor.R` | Predicts emergence dates for a user-specified three-phase protocol (thermophase / cryophase / thermophase) for combined, female, and male models. |
 | `05_three_phase_model_validation.R` | Validates three-phase model predictions against observed emergence from 2022–2023 experiments; computes RMSE and MAE for median and percentile emergence predictions; generates all validation figures and supplemental tables. |
+| `06_cohort_effect_analysis.R` | Tests whether cohort (April vs. June 2021, a proxy for age at induction of development / overwintering duration) affects developmental rate, and evaluates whether restricting model development to the April cohort changes predictive performance against the 2022–2023 validation data. Generates Tables S7–S9 and the cohort development-rate/days-to-emergence figure. |
 | `app.R` | AlfalfaBeeTools Shiny application source code. |
 
 ---
@@ -30,7 +31,7 @@ Place the file in the project root directory before running any scripts.
 
 ## Running the pipeline
 
-Scripts must be run in order, as downstream scripts depend on outputs from script 01. Open each script individually in RStudio and run sequentially. Before running each script, update `setwd()` to your own working directory. Each script creates its own output directory on first run.
+Scripts 01–05 must be run in order, as downstream scripts depend on outputs from script 01. Script 06 is a standalone supplementary analysis and can be run independently, at any point, as long as `degree_day_dataset.csv` is present. Open each script individually in RStudio and run sequentially. Before running each script, update `setwd()` to your own working directory. Each script creates its own output directory on first run.
 
 ---
 
